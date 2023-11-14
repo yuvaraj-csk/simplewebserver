@@ -22,69 +22,36 @@ Testing the webserver.
 
 ## PROGRAM:
 ~~~
-
+from http.server import HTTPServer, BaseHTTPRequestHandler
+content = """
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Five Software Companies by Revenue</title>
+<title>My webserver</title>
 </head>
 <body>
-    <header>
-        <h1>Top Five Software Companies by Revenue</h1>
-    </header>
-
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>Rank</th>
-            <th>Company Name</th>
-            <th colspan="2">Statistics</th>
-            <th>Country</th>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td>Revenue</td>
-            <td>Market Cap</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>1</td>
-            <td>Microsoft</td>
-            <td>118.2</td>
-            <td>946.5</td>
-            <td rowspan="2">United States</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Oracle</td>
-            <td>39.6</td>
-            <td>186.3</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>SAP</td>
-            <td>29.1</td>
-            <td>134.9</td>
-            <td>Germany</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Salesforce</td>
-            <td>13.3</td>
-            <td>120.9</td>
-            <td rowspan="2">United States</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Adobe Inc.</td>
-            <td>9.5</td>
-            <td>132</td>
-        </tr>
-    </table>
+<h1>Top 5 Revenue companies</h1>
+ <ol>
+    <li>Apple</li>
+    <li>Google</li>
+    <li>Amazon</li>
+    <li>Samsung</li>
+    <li>TATA</li>
+ </ol>
 </body>
 </html>
+"""
+class myhandler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        print("request received")
+        self.send_response(200)
+        self.send_header('content-type', 'text/html; charset=utf-8')
+        self.end_headers()
+        self.wfile.write(content.encode())
+server_address = ('',8000)
+httpd = HTTPServer(server_address,myhandler)
+print("my webserver is running...")
+httpd.serve_forever()
 ~~~
 
 ## OUTPUT:
